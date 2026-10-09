@@ -517,6 +517,8 @@ Every push to the connected branch redeploys automatically. Logins, progress, up
 | _Member 3_ | Frontend & visualization |
 | _Member 4_ | Voice, demo & pitch |
 
+**Contributors on GitHub:** [@Agniv-ux](https://github.com/Agniv-ux)
+
 ---
 
 ## 📚 References
