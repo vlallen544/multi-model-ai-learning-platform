@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VidyaPath Faculty</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="theme.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+    <link rel="icon" href="logo.png" type="image/png">
+    <link rel="stylesheet" href="vp.css">
+</head>
+<body class="bg-slate-100 text-neo-black antialiased selection:bg-neo-pink selection:text-white">
+
+    <!-- Top bar: logo and role switch -->
+    <nav class="fixed w-full z-40 bg-white border-b-4 border-black top-0">
+        <div class="px-4 flex justify-between h-16 items-center gap-3">
+            <a href="index.html" class="vp-logo flex items-center gap-3" aria-label="VidyaPath home">
+                <img src="logo.png" alt="" class="vp-mark">
+                <span class="vp-word hidden sm:block">
+                    <span class="font-display uppercase">Vidya<span class="vp-path">Path</span></span>
+                    <span class="vp-tagline hidden lg:block">Learn what industry needs</span>
+                </span>
+            </a>
+            <div class="role-switch flex text-xs">
+                <a href="student.html" class="border-r-0">Student</a><a href="faculty.html" class="on">Faculty</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar (desktop): faculty workflow in order -->
+    <aside class="hidden lg:block fixed top-16 bottom-0 left-0 w-72 bg-white border-r-4 border-black p-4 overflow-y-auto z-30">
+        <p class="text-xs font-bold uppercase text-gray-500 mb-2 px-1">// Your course, step by step</p>
+        <nav class="space-y-2">
+            <a href="#sources" data-view="sources" class="side-item">
+                <span class="step-num">1</span>
+                <span>Sources<span class="side-sub" id="side-sources">Add material, build the course</span></span>
+            </a>
+            <a href="#conflicts" data-view="conflicts" class="side-item">
+                <span class="step-num">2</span>
+                <span>Conflicts<span class="side-sub" id="side-conflicts">Check what the agent trusted</span></span>
+            </a>
+            <a href="#freshness" data-view="freshness" class="side-item">
+                <span class="step-num">3</span>
+                <span>Freshness<span class="side-sub" id="side-fresh">Compare notes with industry</span></span>
+            </a>
+            <a href="#radar" data-view="radar" class="side-item">
+                <span class="step-num">4</span>
+                <span>Class radar<span class="side-sub" id="side-radar">Students at risk, ahead of time</span></span>
+            </a>
+            <a href="#students" data-view="students" class="side-item">
+                <span class="step-num">5</span>
+                <span>Students<span class="side-sub" id="side-students">Accounts and logins</span></span>
+            </a>
+            <p class="text-xs font-bold uppercase text-gray-500 mt-6 mb-2 px-1">// Teach tomorrow</p>
+            <a href="#kit" data-view="kit" class="side-item">
+                <span class="step-num">6</span>
+                <span>Class kit<span class="side-sub" id="side-kit">Outline, handout, quiz, assignment</span></span>
+            </a>
+        </nav>
+        <div class="mt-8 border-4 border-black p-3 bg-slate-100 text-xs">
+            <p class="font-bold uppercase mb-1"><i class="ph-bold ph-lightbulb"></i> How it works</p>
+            <p>Upload your sources and press Build. The agents extract claims, resolve conflicts with a visible trust score,
+                and compare your notes with job descriptions. You can overrule any decision.</p>
+        </div>
+    </aside>
+
+    <!-- Bottom tab bar (mobile) -->
+    <nav class="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white border-t-4 border-black flex">
+        <a href="#sources" data-view="sources" class="tab-item"><i class="ph-bold ph-files text-xl"></i>1 Sources</a>
+        <a href="#conflicts" data-view="conflicts" class="tab-item"><i class="ph-bold ph-scales text-xl"></i>2 Conflicts</a>
+        <a href="#freshness" data-view="freshness" class="tab-item"><i class="ph-bold ph-plant text-xl"></i>3 Fresh</a>
+        <a href="#radar" data-view="radar" class="tab-item"><i class="ph-bold ph-crosshair text-xl"></i>4 Radar</a>
+        <a href="#students" data-view="students" class="tab-item"><i class="ph-bold ph-users text-xl"></i>5 Students</a>
+        <a href="#kit" data-view="kit" class="tab-item"><i class="ph-bold ph-briefcase text-xl"></i>6 Kit</a>
+    </nav>
+
+    <main class="pt-24 pb-28 px-4 lg:pl-80 lg:pr-8 max-w-[1500px] min-h-screen">
+
+        <!-- ============================ 1. SOURCES ============================ -->
+        <div id="view-sources" class="view-section hidden">
+            <header class="mb-8 border-b-4 border-black pb-6 flex flex-wrap justify-between items-end gap-4">
+                <div>
+                    <p class="text-xs font-bold uppercase text-gray-500">// Step 1 of 4</p>
+                    <h1 class="font-display text-5xl md:text-6xl uppercase leading-none">Course<br><span class="text-neo-pink">sources.</span></h1>
+                    <p class="font-bold mt-2 max-w-2xl">Your notes, the textbook, web articles and job descriptions. The agents extract every claim with a verified quote.</p>
+                </div>
+                <button class="btn" onclick="buildCourse(this)"><i class="ph-bold ph-hammer"></i> Build course</button>
+            </header>
+            <div id="course-stats-tiles"></div>
+            <div id="build-result"></div>
+            <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+                <section class="xl:col-span-2 space-y-4" id="source-list"></section>
+                <section class="card p-6 h-fit">
+                    <h2 class="font-display text-2xl uppercase mb-1">Add a source</h2>
+                    <p class="text-xs font-bold uppercase text-gray-500 mb-4">// Notes or a book as PDF (or PPTX, MD, TXT)</p>
+                    <form id="upload-form" class="space-y-3" onsubmit="uploadSource(event)">
+                        <input type="file" name="file" accept=".pdf,.pptx,.md,.txt" class="field" required onchange="suggestTitle(this)">
+                        <input type="text" name="title" placeholder="Title" class="field" required>
+                        <select name="type" class="field">
+                            <option value="faculty_notes">Faculty notes</option>
+                            <option value="textbook">Textbook</option>
+                            <option value="web_link">Web article</option>
+                            <option value="job_description">Job description</option>
+                        </select>
+                        <input type="number" name="year" placeholder="Year of the material" min="1990" max="2100" class="field" required>
+                        <label class="block"><span class="font-bold uppercase text-xs">Pages to use (optional)</span>
+                            <input type="text" name="page_range" placeholder="e.g. 12-40 or 1-5,9" class="field mt-1" pattern="[0-9 ,\-]*">
+                            <span class="text-xs">For a whole book, pick only the chapters you teach.</span></label>
+                        <button class="btn w-full" id="btn-upload">Upload -></button>
+                    </form>
+                    <div id="upload-result" class="mt-4"></div>
+                    <p class="text-xs font-bold uppercase text-gray-500 mt-4">// Then press BUILD COURSE to update the knowledge base</p>
+                    <hr class="border-2 border-black my-6">
+                    <button class="btn btn-light w-full" onclick="resetDemo(this)"><i class="ph-bold ph-trash"></i> Reset student progress</button>
+                </section>
+            </div>
+        </div>
+
+        <!-- ============================ 2. CONFLICTS ============================ -->
+        <div id="view-conflicts" class="view-section hidden">
+            <header class="mb-8 border-b-4 border-black pb-6">
+                <p class="text-xs font-bold uppercase text-gray-500">// Step 2 of 4</p>
+                <h1 class="font-display text-5xl md:text-6xl uppercase leading-none">Source<br><span class="text-neo-pink">conflicts.</span></h1>
+                <p class="font-bold mt-2 max-w-3xl">The agent finds where sources disagree. A transparent formula decides what to trust:
+                    <span class="bg-neo-yellow px-1">0.35 recency + 0.30 authority + 0.25 agreement + 0.10 specificity − 0.15 for "always/never"</span>.
+                    Close calls come to you. Your decision always wins.</p>
+            </header>
+            <div id="conflict-filter" class="flex flex-wrap gap-2 mb-6"></div>
+            <div id="conflict-list" class="space-y-8"></div>
+        </div>
+
+        <!-- ============================ 3. FRESHNESS ============================ -->
+        <div id="view-freshness" class="view-section hidden">
+            <header class="mb-8 border-b-4 border-black pb-6">
+                <p class="text-xs font-bold uppercase text-gray-500">// Step 3 of 4</p>
+                <h1 class="font-display text-5xl md:text-6xl uppercase leading-none">Syllabus<br><span class="text-neo-pink">freshness.</span></h1>
+                <p class="font-bold mt-2 max-w-2xl">How well your notes cover the skills employers ask for in current job descriptions.</p>
+            </header>
+            <div id="freshness-body"></div>
+        </div>
+
+        <!-- ============================ 4. CLASS RADAR ============================ -->
+        <div id="view-radar" class="view-section hidden">
+            <header class="mb-8 border-b-4 border-black pb-6">
+                <p class="text-xs font-bold uppercase text-gray-500">// Step 4 of 4</p>
+                <h1 class="font-display text-5xl md:text-6xl uppercase leading-none">Class<br><span class="text-neo-pink">radar.</span></h1>
+                <p class="font-bold mt-2 max-w-2xl">Which upcoming topics put which students at risk, before the class reaches them. Click a student to open their view.</p>
+            </header>
+            <div id="class-radar"></div>
+        </div>
+        <!-- ============================ 5. STUDENTS ============================ -->
+        <div id="view-students" class="view-section hidden">
+            <header class="mb-8 border-b-4 border-black pb-6">
+                <p class="text-xs font-bold uppercase text-gray-500">// Step 5 of 5</p>
+                <h1 class="font-display text-5xl md:text-6xl uppercase leading-none">Student<br><span class="text-neo-pink">accounts.</span></h1>
+                <p class="font-bold mt-2 max-w-2xl">Create a student ID and password for each student. They log in with that ID and only see their own viva, lessons and path.</p>
+            </header>
+            <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+                <section class="xl:col-span-2 space-y-3" id="student-accounts"></section>
+                <section class="card p-6 h-fit">
+                    <h2 class="font-display text-2xl uppercase mb-4">Add a student</h2>
+                    <form id="student-form" class="space-y-3" onsubmit="createStudent(event)">
+                        <label class="block"><span class="font-bold uppercase text-xs">Student ID (their login)</span>
+                            <input name="id" class="field mt-1" placeholder="e.g. cse21_045" pattern="[A-Za-z0-9_]{2,32}" required></label>
+                        <label class="block"><span class="font-bold uppercase text-xs">Full name</span>
+                            <input name="name" class="field mt-1" required maxlength="80"></label>
+                        <label class="block"><span class="font-bold uppercase text-xs">Password (6+ characters)</span>
+                            <input name="password" type="text" class="field mt-1" minlength="6" required autocomplete="off"></label>
+                        <label class="block"><span class="font-bold uppercase text-xs">Pace</span>
+                            <select name="pace" class="field mt-1"><option value="slow">Slow</option><option value="medium" selected>Medium</option><option value="fast">Fast</option></select></label>
+                        <label class="block"><span class="font-bold uppercase text-xs">Preferred learning style</span>
+                            <select name="stated_style" class="field mt-1">
+                                <option value="reading">Reading</option><option value="listening">Listening</option>
+                                <option value="visual">Visual</option><option value="practice">Practice</option></select></label>
+                        <label class="block"><span class="font-bold uppercase text-xs">Target role</span>
+                            <input name="target_role" class="field mt-1" value="Software Engineer" maxlength="60"></label>
+                        <button class="btn w-full" id="btn-student"><i class="ph-bold ph-user-plus"></i> Create student</button>
+                    </form>
+                    <div id="student-result" class="mt-4"></div>
+                </section>
+            </div>
+        </div>
+        <!-- ============================ 6. CLASS-READY KIT ============================ -->
+        <div id="view-kit" class="view-section hidden">
+            <header class="mb-8 border-b-4 border-black pb-6">
+                <p class="text-xs font-bold uppercase text-gray-500">// Step 6: teach tomorrow</p>
+                <h1 class="font-display text-5xl md:text-6xl uppercase leading-none">Class-ready<br><span class="text-neo-pink">kit.</span></h1>
+                <p class="font-bold mt-2 max-w-3xl">Pick a topic and get a lecture outline, a handout, a quiz and an assignment, built from your
+                    own trusted material (outdated content already left out) and tuned to what your class keeps getting wrong.</p>
+            </header>
+            <form class="card p-6 mb-6 flex flex-wrap items-end gap-4" onsubmit="generateKit(event)">
+                <label class="flex-1 min-w-[220px]"><span class="font-bold uppercase text-sm">Topic</span>
+                    <select id="kit-concept" class="field mt-1"></select></label>
+                <label class="min-w-[160px]"><span class="font-bold uppercase text-sm">Class length</span>
+                    <select id="kit-minutes" class="field mt-1"><option value="40">40 minutes</option><option value="50" selected>50 minutes</option>
+                        <option value="60">60 minutes</option><option value="90">90 minutes</option></select></label>
+                <button class="btn" id="btn-kit"><i class="ph-bold ph-sparkle"></i> Generate kit</button>
+            </form>
+            <div id="kit-recent" class="mb-8"></div>
+            <div id="kit-body"></div>
+        </div>
+    </main>
+
+    <!-- Details behind a course stat tile (concepts, claims, rejected quotes, conflicts, freshness) -->
+    <div id="detail" class="hidden fixed inset-0 z-50 bg-black/60 p-4 overflow-y-auto" onclick="if (event.target === this) closeDetail()">
+        <div class="card max-w-5xl mx-auto my-8 p-6">
+            <div class="flex justify-between items-start gap-4 mb-4">
+                <div>
+                    <p id="detail-kicker" class="text-xs font-bold uppercase text-gray-500"></p>
+                    <h2 id="detail-title" class="font-display text-3xl uppercase leading-tight"></h2>
+                </div>
+                <button class="btn btn-light" onclick="closeDetail()" aria-label="Close"><i class="ph-bold ph-x"></i></button>
+            </div>
+            <div id="detail-body"></div>
+        </div>
+    </div>
+
+    <!-- Preview of the text extracted from a source, page by page -->
+    <div id="preview" class="hidden fixed inset-0 z-50 bg-black/60 p-4 overflow-y-auto" onclick="if (event.target === this) closePreview()">
+        <div class="card max-w-4xl mx-auto my-8 p-6">
+            <div class="flex justify-between items-start gap-4 mb-2">
+                <div>
+                    <p class="text-xs font-bold uppercase text-gray-500">// What the agents read from this source</p>
+                    <h2 id="preview-title" class="font-display text-2xl uppercase leading-tight"></h2>
+                </div>
+                <button class="btn btn-light" onclick="closePreview()"><i class="ph-bold ph-x"></i></button>
+            </div>
+            <div id="preview-pages" class="flex flex-wrap gap-1 mb-4"></div>
+            <pre id="preview-text" class="border-4 border-black bg-slate-50 p-4 whitespace-pre-wrap text-sm max-h-[60vh] overflow-y-auto"></pre>
+        </div>
+    </div>
+
+    <script src="vp.js"></script>
+    <script src="faculty.js"></script>
+</body>
+</html>
